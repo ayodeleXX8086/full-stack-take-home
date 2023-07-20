@@ -12,9 +12,11 @@ class GraphqlController < ApplicationController
       # Query context goes here, for example:
       # current_user: current_user,
     }
+    # p "Going through execution #{query}, #{operation_name}"
     result = ApiSchema.execute(query, variables: variables, context: context, operation_name: operation_name)
     render json: result
   rescue StandardError => e
+    # p "I'm catching an error here"
     raise e unless Rails.env.development?
     handle_error_in_development(e)
   end
@@ -44,7 +46,7 @@ class GraphqlController < ApplicationController
   def handle_error_in_development(e)
     logger.error e.message
     logger.error e.backtrace.join("\n")
-
+    p "Caught an error #{e}"
     render json: { errors: [{ message: e.message, backtrace: e.backtrace }], data: {} }, status: 500
   end
 end
