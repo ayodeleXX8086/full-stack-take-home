@@ -1,3 +1,5 @@
+require 'date'
+
 module Mutations
   class UpdateChatroom < BaseMutation
     # Arguments to update the chatroom
@@ -23,15 +25,14 @@ module Mutations
       resolved = chatroom.resolved if resolved.nil?
       nature_code_id ||= chatroom.nature_code_id
 
-      p "Nature code #{nature_code_id}"
-
       # Update the chatroom attributes with the provided values
       result = chatroom.update(
         label:,
         caller_phone_number:,
         description:,
         resolved:,
-        nature_code_id:
+        nature_code_id:,
+        updated_at: Time.zone.now,
       )
 
       if result

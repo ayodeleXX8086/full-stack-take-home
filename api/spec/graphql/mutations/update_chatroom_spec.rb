@@ -45,7 +45,7 @@ RSpec.describe "Mutations::UpdateChatroom", type: :request do
 
   context "when updating a chat room that exists" do
     before do
-      @variables = {} # Define @variables as an instance variable
+      @variables = {}
     end
     it "update the chat room description" do
       # Create a chatroom to be updated
@@ -62,7 +62,6 @@ RSpec.describe "Mutations::UpdateChatroom", type: :request do
       expect { post '/graphql', params: { query: query, variables: @variables.to_json } }.to_not change { Chatroom.count }
 
       response_json = JSON.parse(response.body)
-      p "Response json #{response_json}"
       chatroom = Chatroom.find(response_json['data']['updateChatroom']['chatroom']['id'])
 
       expect(chatroom).to be_truthy

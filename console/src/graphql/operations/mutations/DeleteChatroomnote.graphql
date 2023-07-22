@@ -1,0 +1,7 @@
+mutation DeleteChatroomnotes($chatroomnoteId: ID!, $chatroomId: ID!) {
+  deleteChatroomnotes(
+    input: { chatroomnoteId: $chatroomnoteId, chatroomId: $chatroomId }
+  ) {
+    result
+  }
+}

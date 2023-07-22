@@ -1,0 +1,6 @@
+fragment ChatroomnoteData on ChatroomnoteTypes {
+  id
+  note
+  createdAt
+  updatedAt
+}

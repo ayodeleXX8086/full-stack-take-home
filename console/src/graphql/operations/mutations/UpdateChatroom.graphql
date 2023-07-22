@@ -1,0 +1,23 @@
+mutation UpdateChatroom(
+  $id: ID!
+  $label: String
+  $callerPhoneNumber: String
+  $description: String
+  $resolved: Boolean
+  $natureCodeId: ID
+) {
+  updateChatroom(
+    input: {
+      id: $id
+      label: $label
+      callerPhoneNumber: $callerPhoneNumber
+      description: $description
+      resolved: $resolved
+      natureCodeId: $natureCodeId
+    }
+  ) {
+    chatroom {
+      ...ChatroomData
+    }
+  }
+}

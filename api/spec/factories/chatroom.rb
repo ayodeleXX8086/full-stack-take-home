@@ -7,5 +7,12 @@ FactoryBot.define do
     resolved { false }
     created_at { Time.zone.now }
     updated_at { Time.zone.now }
+
+    # The correct trait name is :with_chatroomnotes (not :with_chatroom)
+    trait :with_chatroomnotes do
+      after(:create) do |chatroom|
+        create_list(:chatroomnotes, 3, chatroom: chatroom)
+      end
+    end
   end
 end

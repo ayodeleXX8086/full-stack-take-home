@@ -12,9 +12,6 @@ module Mutations
     def resolve(label:, caller_phone_number:, description: nil, nature_code_id: nil)
       params = { label:, caller_phone_number:, description:, nature_code_id: }.compact_blank
       chatroom = Chatroom.create(**params, resolved: false)
-      puts "Chatroom ID: #{chatroom.id}"
-      puts "Chatroom Label: #{chatroom.label}"
-      puts "Chatroom Description: #{chatroom.description}"
       {
         chatroom: chatroom
       }

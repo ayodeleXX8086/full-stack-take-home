@@ -7,4 +7,7 @@ fragment ChatroomData on Chatroom {
   natureCode {
     ...NatureCodeData
   }
+  chatroomnotes {
+    ...ChatroomnoteData
+  }
 }
