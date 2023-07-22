@@ -23,7 +23,7 @@ export const ChatroomContent: React.FC<ChatroomContentProps> = ({
     chatroom.description || ""
   );
   const [viewDetail, setViewDetail] = useState(false);
-  const [updateChatRoom, { error }] = useUpdateChatroomMutation({
+  const [updateChatRoom] = useUpdateChatroomMutation({
     refetchQueries: [ChatroomsListDocument],
   });
   const [isTextEditable, setIsTextEditable] = useState(false);
@@ -31,16 +31,9 @@ export const ChatroomContent: React.FC<ChatroomContentProps> = ({
   const handleSaveDescription = async () => {
     updateChatRoom({
       variables: { id: chatroom.id, description: editedDescription },
-    })
-      .then((data) => {
-        setIsTextEditable(false);
-        if (error) {
-          onError();
-        }
-      })
-      .catch((err) => {
-        onError();
-      });
+    }).catch((err) => {
+      onError();
+    });
   };
 
   const handleCancelEdit = () => {
@@ -70,6 +63,7 @@ export const ChatroomContent: React.FC<ChatroomContentProps> = ({
         chatroom={chatroom}
         onClose={() => setViewDetail(false)}
         open={viewDetail}
+        onError={onError}
       />
     </>
   );

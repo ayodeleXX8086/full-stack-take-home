@@ -3,12 +3,14 @@ import { Box, Button, Container, Typography } from "@mui/material";
 import { useState } from "react";
 
 import { useChatroomsListQuery } from "~src/codegen/graphql";
+import { ErrorDialog } from "../common/components/ErrorDialog";
 import { ChatroomsList } from "./ChatroomsList";
 import { CreateChatroomModal } from "./CreateChatroomModal";
 
 export const ChatroomsPage: React.FC = () => {
   const { data, loading } = useChatroomsListQuery();
   const [showCreateChatroomModal, setShowCreateChatroomModal] = useState(false);
+  const [showError, setShowError] = useState(false);
 
   const chatrooms = data?.chatrooms ?? [];
 
@@ -25,11 +27,19 @@ export const ChatroomsPage: React.FC = () => {
           New Chatroom
         </Button>
       </Box>
-      <ChatroomsList loading={loading} chatrooms={chatrooms} />
+      <ChatroomsList
+        loading={loading}
+        chatrooms={chatrooms}
+        onError={() => {
+          setShowError(true);
+        }}
+      />
       <CreateChatroomModal
         open={showCreateChatroomModal}
         handleClose={() => setShowCreateChatroomModal(false)}
+        onError={() => setShowError(true)}
       />
+      <ErrorDialog onClose={() => setShowError(false)} open={showError} />
     </Container>
   );
 };

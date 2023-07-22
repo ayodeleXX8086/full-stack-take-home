@@ -25,12 +25,14 @@ interface ChatRoomDetailsProps {
   chatroom: ChatroomDataFragment;
   open: boolean;
   onClose: () => void;
+  onError: () => void;
 }
 
 export const ChatRoomDetailsModal: React.FC<ChatRoomDetailsProps> = ({
   chatroom,
   open,
   onClose,
+  onError,
 }) => {
   const { callerPhoneNumber, label, id, chatroomnotes, natureCode } = chatroom;
   const [saveChatRoomNote] = useCreateChatroomnotesMutation({
@@ -47,12 +49,18 @@ export const ChatRoomDetailsModal: React.FC<ChatRoomDetailsProps> = ({
   const noop = () => {
     // Do nothing
   };
-  const onSave = (note: string) => {
-    saveChatRoomNote({ variables: { note, chatroomId: id } });
+  const onSave = async (note: string) => {
+    saveChatRoomNote({ variables: { note, chatroomId: id } }).catch((err) => {
+      onError();
+    });
     setShowNote(false);
   };
-  const onDelete = (chatroomnoteId: string) => {
-    deleteChatRoomNote({ variables: { chatroomnoteId, chatroomId: id } });
+  const onDelete = async (chatroomnoteId: string) => {
+    deleteChatRoomNote({ variables: { chatroomnoteId, chatroomId: id } }).catch(
+      (err) => {
+        onError();
+      }
+    );
   };
   return (
     <Dialog open={open} onClose={onClose}>

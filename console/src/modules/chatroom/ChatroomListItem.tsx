@@ -20,7 +20,6 @@ import {
   ChatroomsListDocument,
   useUpdateChatroomMutation,
 } from "~src/codegen/graphql";
-import { ErrorDialog } from "../common/components/ErrorDialog";
 import { ChatroomContent } from "./ChatroomContent";
 import { ChatroomTags } from "./ChatroomTags";
 import { ResolveChatroomDialog } from "./ResolveChatroomDialog";
@@ -34,29 +33,26 @@ const ChatroomCard = styled(Card)<CardProps>(({ theme }) => ({
 
 export type ChatroomListItemProps = {
   chatroom: ChatroomDataFragment;
+  onError: () => void;
 };
 
 export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
   chatroom,
+  onError,
 }) => {
   const [updateChatRoom, { error }] = useUpdateChatroomMutation({
     refetchQueries: [ChatroomsListDocument],
   });
   const [showDetails, setShowDetails] = useState(false);
-  const [showError, setShowError] = useState(false);
   const [showResolve, setShowResolve] = useState(false);
   const natureCodeName = chatroom.natureCode?.name ?? "Uncategorized";
   const handleResolveChatroom = (chatroom: ChatroomDataFragment) => {
     setShowResolve(false);
-    updateChatRoom({ variables: { resolved: true, id: chatroom.id } })
-      .then((data) => {
-        if (error) {
-          setShowError(true);
-        }
-      })
-      .catch((err) => {
-        setShowError(true);
-      });
+    updateChatRoom({ variables: { resolved: true, id: chatroom.id } }).catch(
+      (err) => {
+        onError();
+      }
+    );
   };
 
   return (
@@ -88,13 +84,9 @@ export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
           </Box>
         </Box>
         <Collapse in={showDetails}>
-          <ChatroomContent
-            chatroom={chatroom}
-            onError={() => setShowError(true)}
-          />
+          <ChatroomContent chatroom={chatroom} onError={onError} />
         </Collapse>
       </ChatroomCard>
-      <ErrorDialog onClose={() => setShowError(false)} open={showError} />
       <ResolveChatroomDialog
         open={showResolve}
         onClose={() => setShowResolve(false)}

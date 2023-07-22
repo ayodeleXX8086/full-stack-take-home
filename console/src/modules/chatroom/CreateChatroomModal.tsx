@@ -11,11 +11,13 @@ import {
 export type CreateChatroomModalProps = {
   open: boolean;
   handleClose: () => void;
+  onError: () => void;
 };
 
 export const CreateChatroomModal: React.FC<CreateChatroomModalProps> = ({
   open,
   handleClose,
+  onError,
 }) => {
   const [createChatroom] = useCreateChatroomMutation({
     refetchQueries: [ChatroomsListDocument],
@@ -24,7 +26,9 @@ export const CreateChatroomModal: React.FC<CreateChatroomModalProps> = ({
   const handleSubmit: CreateChatroomFormProps["onSubmit"] = async (
     variables
   ) => {
-    createChatroom({ variables });
+    createChatroom({ variables }).catch((err) => {
+      onError();
+    });
   };
 
   return (

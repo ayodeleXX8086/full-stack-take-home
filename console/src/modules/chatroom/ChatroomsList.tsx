@@ -6,11 +6,13 @@ import { ChatroomListItem } from "./ChatroomListItem";
 export type ChatroomsListProps = {
   loading?: boolean;
   chatrooms: ChatroomDataFragment[];
+  onError: () => void;
 };
 
 export const ChatroomsList: React.FC<ChatroomsListProps> = ({
   loading,
   chatrooms,
+  onError,
 }) => {
   if (loading) {
     return (
@@ -28,7 +30,11 @@ export const ChatroomsList: React.FC<ChatroomsListProps> = ({
         </Alert>
       )}
       {chatrooms.map((chatroom) => (
-        <ChatroomListItem key={chatroom.id} chatroom={chatroom} />
+        <ChatroomListItem
+          key={chatroom.id}
+          chatroom={chatroom}
+          onError={onError}
+        />
       ))}
     </Box>
   );
