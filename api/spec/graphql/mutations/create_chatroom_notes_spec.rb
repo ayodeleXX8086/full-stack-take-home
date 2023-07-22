@@ -37,10 +37,8 @@ RSpec.describe "Mutations::CreateChatroomNotes", type: :request do
 
   it "creates a new chatroomnote" do
     post '/graphql', params: { query:, variables: }
-    # expect { post '/graphql', params: { query:, variables: } }.to change { Chatroomnotes.count }.from(0).to(1)
 
     response_json = JSON.parse(response.body)
-    p "Response json #{response_json}"
 
     chatroomnote = Chatroomnotes.find(response_json['data']['createChatroomnotes']['chatroomnote']['id'])
     
