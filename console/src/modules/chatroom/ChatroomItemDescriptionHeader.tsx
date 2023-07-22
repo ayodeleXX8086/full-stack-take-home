@@ -3,18 +3,18 @@ import { Box, IconButton, Tooltip, Typography } from "@mui/material";
 import { Edit } from "@mui/icons-material";
 
 type HeaderProps = {
-  isTextEditable: boolean;
+  noEditIcon: boolean;
   onEditClick: () => void;
 };
 
-export const ChatroomItemHeader: React.FC<HeaderProps> = ({
-  isTextEditable,
+export const ChatroomItemDescriptionHeader: React.FC<HeaderProps> = ({
+  noEditIcon,
   onEditClick,
 }) => {
   return (
     <Box display="flex" alignItems="center">
       <Typography variant="body1">Description</Typography>
-      {isTextEditable ? (
+      {noEditIcon ? (
         <></>
       ) : (
         <Tooltip title="Edit">

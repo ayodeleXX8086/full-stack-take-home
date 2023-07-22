@@ -88,7 +88,10 @@ export const ChatroomListItem: React.FC<ChatroomListItemProps> = ({
           </Box>
         </Box>
         <Collapse in={showDetails}>
-          <ChatroomContent chatroom={chatroom} />
+          <ChatroomContent
+            chatroom={chatroom}
+            onError={() => setShowError(true)}
+          />
         </Collapse>
       </ChatroomCard>
       <ErrorDialog onClose={() => setShowError(false)} open={showError} />

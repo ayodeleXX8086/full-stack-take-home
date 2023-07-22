@@ -18,6 +18,8 @@ import {
 } from "~src/codegen/graphql";
 import { Delete } from "@mui/icons-material";
 import AddNoteSection from "./AddNoteSection";
+import ChatroomDescription from "./ChatroomDescription";
+import { ChatroomItemDescriptionHeader } from "./ChatroomItemDescriptionHeader";
 
 interface ChatRoomDetailsProps {
   chatroom: ChatroomDataFragment;
@@ -42,6 +44,9 @@ export const ChatRoomDetailsModal: React.FC<ChatRoomDetailsProps> = ({
     return `${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
   };
   const [showNote, setShowNote] = useState(false);
+  const noop = () => {
+    // Do nothing
+  };
   const onSave = (note: string) => {
     saveChatRoomNote({ variables: { note, chatroomId: id } });
     setShowNote(false);
@@ -59,6 +64,20 @@ export const ChatRoomDetailsModal: React.FC<ChatRoomDetailsProps> = ({
         <Typography variant="subtitle1" gutterBottom>
           Nature Code: {natureCode?.name || "unknown"}
         </Typography>
+        <Box>
+          <ChatroomItemDescriptionHeader noEditIcon={true} onEditClick={noop} />
+          <ChatroomDescription
+            description={chatroom.description ?? "No description provided."}
+            isEditable={false}
+            onEdit={noop}
+            onCancel={noop}
+            onSave={noop}
+            editedDescription={
+              chatroom.description ?? "No description provided."
+            }
+            onChange={noop}
+          />
+        </Box>
         <Button
           variant="outlined"
           color="primary"

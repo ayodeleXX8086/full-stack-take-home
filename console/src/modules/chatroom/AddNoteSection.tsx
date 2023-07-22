@@ -34,7 +34,9 @@ const AddNoteSection: React.FC<AddNoteSectionProps> = ({
           fontSize: "inherit",
         }}
       />
-      <IconButton onClick={handleNoteSave}>Add Note</IconButton>
+      {chatroomNote.length > 0 && (
+        <IconButton onClick={handleNoteSave}>Add Note</IconButton>
+      )}
       <IconButton onClick={handleNoteCancel}>Cancel</IconButton>
     </>
   );
