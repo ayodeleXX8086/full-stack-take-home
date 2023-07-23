@@ -31,9 +31,13 @@ export const ChatroomContent: React.FC<ChatroomContentProps> = ({
   const handleSaveDescription = async () => {
     updateChatRoom({
       variables: { id: chatroom.id, description: editedDescription },
-    }).catch((err) => {
-      onError();
-    });
+    })
+      .then((data) => {
+        setIsTextEditable(false);
+      })
+      .catch((err) => {
+        onError();
+      });
   };
 
   const handleCancelEdit = () => {
